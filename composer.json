@@ -1,0 +1,31 @@
+{
+    "name": "mrzen/assetzen",
+    "description": "AssetZen library for PHP",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Leo Adamek",
+            "email": "leo.adamek@mrzen.com"
+        }
+    ],
+    "require": {
+      "guzzlehttp/guzzle": "6.2.*"
+    },
+    "require-dev" : {
+      "phpunit/phpunit": "6.*",
+      "monolog/monolog": "1.*",
+      "psr/log": "1.*"
+    },
+
+    "autoload" : {
+      "psr-4": {
+        "AssetZen\\": "src/"
+      }
+    },
+
+    "autoload-dev": {
+      "psr-0": {
+        "AssetZen\\Tests": "tests/AssetZen"
+      }
+    }
+}
