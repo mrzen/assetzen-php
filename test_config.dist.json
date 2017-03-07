@@ -1,3 +1,19 @@
 {
-  "base_url": "https://assetzen.mrzen.com/"
+  "base_uri": "http://localhost:3000/",
+  "auth": {
+    "code": "e36936741e44c1bf59622171c00997c14cd4cbdc85eca2994622e0d4f8cb4836",
+    "client_id": "047277b82d8aee8fb7e48efc3a33e1a38250bd4bd3648f9fb4f296767e4227b2",
+    "client_secret": "381641b0ce835e3803f53efa79bc9d525913c7e16fdd16a046ef67ea41672d4c",
+    "scope": "read",
+    "redirect_uri": "urn:ietf:wg:oauth:2.0:oob"
+  },
+
+  "access_token": {
+    "token": "29f7a5deae3b604f70952d8c89f0f501ec3452eaa6163fe5ee97ea8fd55bcf87",
+    "data": {
+      "scope": "read",
+      "expires_in": 7200
+    }
+  }
+
 }

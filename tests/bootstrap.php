@@ -53,10 +53,7 @@ function getTestClient()
     // Instantiate the client
     $config = ( isset($_SERVER['CONFIG']) ? $_SERVER['CONFIG'] : 'test_config.dist.json');
     $az = new \AssetZen\Client($config);
-    // Enable History
-    $history = new History();
-    $az->getEmitter()->attach($history);
-    return $trovebox;
+    return $az;
 }
 
 $loader->addPsr4('AssetZen\Tests\\', dirname(__DIR__) . '/tests/Trovebox');

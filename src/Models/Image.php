@@ -17,7 +17,7 @@ class Image extends \stdClass {
   *
   * @param &\AsetZen\Client $client Client which created this image.
   */
-  public function __construct(array $data = [], \AssetZen\Client &$client = null)
+  public function __construct($data = [], \AssetZen\Client &$client = null)
   {
     foreach($data as $k => $v) {
       $this->$k = $v;

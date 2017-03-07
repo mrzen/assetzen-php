@@ -22,8 +22,6 @@ class AssetZenImageParametersTest extends TestCase
 
     $link = $p->getLink();
 
-    echo $link;
-
     $this->assertEquals(
       'https://assetzen-images.mrzen.com/image/rMn-bGitIiW0DeIC_v5HilwZTiIW6v2TK5ov3gobPNc.eyJpbWFnZUlkIjoiVEVTVF9JTUFHRUlEIiwid2lkdGgiOjE5MjAsImhlaWdodCI6MTA4MCwicXVhbGl0eSI6NzB9.jpg',
       $link

@@ -20,6 +20,15 @@
 
 namespace AssetZen;
 
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
+use Sainsburys\Guzzle\Oauth2\Middleware\OAuthMiddleware;
+use Sainsburys\Guzzle\Oauth2\GrantType\AuthorizationCode;
+use Sainsburys\Guzzle\Oauth2\AccessToken;
+
+use AssetZen\Resources\Images;
+use AssetZen\Resources\Albums;
+
 
 class Client extends \GuzzleHttp\Client {
 
@@ -29,26 +38,54 @@ class Client extends \GuzzleHttp\Client {
     private $_accountId;
 
     /**
+     * @var Handler / Middleware Stack
+     */
+    private $_stack;
+
+    /**
+     * @var History
+     */
+    private $_history;
+
+    // Include access methods
+    use Images;
+    use Albums;
+
+
+    /**
      * Create a New Client
      *
      * @param array|string $config Configuration Source / options
      */
     public function __construct($config = null)
     {
+      $this->_stack = HandlerStack::create();
+      $this->_history = [];
       $configuration = $this->getConfiguration($config);
-      parent::__construct();
+
+      $token = false;
+
+      if (array_key_exists('access_token', $configuration)) {
+        $token = new AccessToken($configuration['access_token']['token'], 'token', $configuration['access_token']['data']);
+      }
+
+      parent::__construct(['handler' => $this->_stack, 'auth' => 'oauth2', 'base_uri' => $configuration['base_uri']]);
+
+      $configuration['auth'][AuthorizationCode::CONFIG_TOKEN_URL] = '/oauth/token';
+      $grant = new AuthorizationCode($this, $configuration['auth']);
+      $oauth = new OAuthMiddleware($this, $grant);
+      $history = Middleware::history($this->_history);
+
+      if($token) $oauth->setAccessToken($token);
+
+      $this->_stack->push($oauth->onBefore());
+      $this->_stack->push($oauth->onFailure(5));
+      $this->_stack->push($history);
     }
 
-    /**
-     * Get Account ID
-     *
-     * @return string Account ID
-     */
-    public function getAccountId()
-    {
-      return $this->_accountId;
+    public function history(){
+      return $this->_history;
     }
-
 
     /**
      * Get Configuration
