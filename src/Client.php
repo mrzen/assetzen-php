@@ -63,6 +63,10 @@ class Client extends \GuzzleHttp\Client {
       $this->_history = [];
       $configuration = $this->getConfiguration($config);
 
+      if (!array_key_exists('base_uri', $configuration)) {
+        $configuration['base_uri'] = 'https://assetzen.mrzen.com/';
+      }
+
       $token = false;
 
       if (array_key_exists('access_token', $configuration)) {
