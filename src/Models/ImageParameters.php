@@ -50,6 +50,11 @@ class ImageParameters
   public $format;
 
   /**
+   * @var Overridden Focus Point
+   */
+  public $focus;
+
+  /**
   * Get a link to view the image
   *
   * @return string Link
@@ -64,6 +69,10 @@ class ImageParameters
       'colors' => (int)$this->colors,
       'ignoreFocus' => (bool)$this->ignoreFocus
     ];
+
+    if($this->focus) {
+      $parameters['focus'] = $focus;
+    }
 
     $parameters = array_filter($parameters, function($item) {
         // Filter out all falsey values

@@ -28,8 +28,4 @@ class Image extends \stdClass {
     }
   }
 
-  public function getLink(LinkParams $params){
-    
-  }
-
 }
