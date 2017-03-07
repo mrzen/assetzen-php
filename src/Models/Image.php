@@ -3,29 +3,26 @@
 namespace AssetZen\Models;
 
 
-class Image extends \stdClass {
+/**
+ * {@inheritdoc}
+ *
+ */
+class Image extends Base {
 
   /**
-  * @var API Client
-  */
-  private $_client;
-
-  /**
-  * Constructor
-  *
-  * @param array $data Image Data
-  *
-  * @param &\AsetZen\Client $client Client which created this image.
-  */
-  public function __construct($data = [], \AssetZen\Client &$client = null)
+   * Get a link for this image
+   *
+   * @param $params Link Parameters
+   *
+   * @return string Image Link
+   */
+  public function getLink(ImageParameters $params)
   {
-    foreach($data as $k => $v) {
-      $this->$k = $v;
-    }
+    $account = $this->_client->account();
+    $params->imageId = $this->id;
+    $params->accountId = $account->id;
+    $params->host = $account->settings->images_service;
 
-    if ($client) {
-      $this->_client = $client;
-    }
+    return $params->getLink();
   }
-
 }

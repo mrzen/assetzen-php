@@ -11,6 +11,10 @@ trait Images {
   public function getImage($id)
   {
     $r = $this->get('/images/'.$id.'.json');
+
+    $data = json_decode($r->getBody());
+
+    return new Image($data, $this);
   }
 
   public function getImages($page = 1, $count = 100)

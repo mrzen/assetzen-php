@@ -19,6 +19,7 @@ class AssetZenImageParametersTest extends TestCase
     $p->height = 1080;
     $p->quality = 70;
     $p->format = 'jpg';
+    $p->host = 'https://assetzen-images.mrzen.com';
 
     $link = $p->getLink();
 

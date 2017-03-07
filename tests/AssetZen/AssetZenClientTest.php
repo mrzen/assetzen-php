@@ -5,6 +5,8 @@ namespace AssetZen\Tests;
 use AssetZen\Client;
 use PHPUnit\Framework\TestCase;
 
+use AssetZen\Models\Account;
+
 
 class AssetZenClientTest extends TestCase
 {
@@ -21,24 +23,12 @@ class AssetZenClientTest extends TestCase
         )) ;
     }
 
-    public function testGetImagesNoParams()
+    public function testAccount()
     {
       $client = getTestClient();
 
-      $images = $client->getImages();
+      $account = $client->account();
 
-      // Images are an array
-      $this->assertInternalType('array', $images);
-
-      foreach($images as $image) $this->assertInstanceOf(\AssetZen\Models\Image::class, $image);
-    }
-
-    public function testGetImagesCount()
-    {
-      $client = getTestClient();
-
-      $images = $client->getImages(1, 24);
-
-      $this->assertEquals(count($images), 24);
+      $this->assertInstanceOf(Account::class, $account);
     }
 }

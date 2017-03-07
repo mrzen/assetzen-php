@@ -7,8 +7,6 @@ namespace AssetZen\Models;
 class ImageParameters
 {
 
-  const DEFAULT_HOST = 'https://assetzen-images.mrzen.com';
-
   /**
    * @var Image ID
    */
@@ -54,6 +52,12 @@ class ImageParameters
    */
   public $focus;
 
+
+  /**
+   * @var Service Host
+   */
+  public $host;
+
   /**
   * Get a link to view the image
   *
@@ -85,7 +89,7 @@ class ImageParameters
     $hmac = hash_hmac("sha256", $ps, $this->accountId, true);
     $signature = $this->urlSafeBase64Encode($hmac);
 
-    $url = self::DEFAULT_HOST . '/image/' . $signature . '.' . $this->urlSafeBase64Encode($ps);
+    $url = $this->host . '/image/' . $signature . '.' . $this->urlSafeBase64Encode($ps);
 
     if ($this->format) {
         $url .= '.'.$this->format;

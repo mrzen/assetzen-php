@@ -28,14 +28,15 @@ use Sainsburys\Guzzle\Oauth2\AccessToken;
 
 use AssetZen\Resources\Images;
 use AssetZen\Resources\Albums;
+use AssetZen\Models\Account;
 
 
 class Client extends \GuzzleHttp\Client {
 
     /**
-     * @var Account ID
+     * @var Account
      */
-    private $_accountId;
+    private $_account;
 
     /**
      * @var Handler / Middleware Stack
@@ -89,6 +90,19 @@ class Client extends \GuzzleHttp\Client {
 
     public function history(){
       return $this->_history;
+    }
+
+    public function account()
+    {
+      if($this->_account) return $account;
+
+      $r = $this->get('/account.json');
+
+      $data = json_decode($r->getBody());
+
+      $this->_account = new Account($data);
+
+      return $this->_account;
     }
 
     /**
