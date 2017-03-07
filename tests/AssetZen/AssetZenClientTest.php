@@ -4,6 +4,7 @@ namespace AssetZen\Tests;
 
 use AssetZen\Client;
 use PHPUnit\Framework\TestCase;
+use GuzzleHttp\Psr7\Response;
 
 use AssetZen\Models\Account;
 
@@ -25,7 +26,9 @@ class AssetZenClientTest extends TestCase
 
     public function testAccount()
     {
-      $client = getTestClient();
+      $client = getTestClient([
+        new Response(200, ['Content-Type' => 'application/json'], mock('/account.json'))
+      ]);
 
       $account = $client->account();
 

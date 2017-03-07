@@ -3,6 +3,7 @@
 namespace AssetZen\Tests;
 
 use AssetZen\Client;
+use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 
 
@@ -11,7 +12,9 @@ class ImagesTest extends TestCase
 
     public function testGetImagesNoParams()
     {
-      $client = getTestClient();
+      $client = getTestClient([
+        new Response(200, [], mock('/images.json'))
+      ]);
 
       $images = $client->getImages();
 
@@ -19,14 +22,5 @@ class ImagesTest extends TestCase
       $this->assertInternalType('array', $images);
 
       foreach($images as $image) $this->assertInstanceOf(\AssetZen\Models\Image::class, $image);
-    }
-
-    public function testGetImagesCount()
-    {
-      $client = getTestClient();
-
-      $images = $client->getImages(0, 23);
-
-      $this->assertEquals(count($images), 23);
     }
 }

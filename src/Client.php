@@ -58,9 +58,11 @@ class Client extends \GuzzleHttp\Client {
      *
      * @param array|string $config Configuration Source / options
      */
-    public function __construct($config = null)
+    public function __construct($config = null, $stack = null)
     {
       $this->_stack = HandlerStack::create();
+      if($stack) $this->_stack = HandlerStack::create($stack);
+
       $this->_history = [];
       $configuration = $this->getConfiguration($config);
 
@@ -100,9 +102,14 @@ class Client extends \GuzzleHttp\Client {
 
       $data = json_decode($r->getBody());
 
-      $this->_account = new Account($data);
+      $this->_account = new Account($data, $this);
 
       return $this->_account;
+    }
+
+    public function push($middleware)
+    {
+      $this->_stack->push($middleware);
     }
 
     /**

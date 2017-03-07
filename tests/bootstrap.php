@@ -20,12 +20,12 @@
 
 namespace AssetZen\Tests;
 
+use GuzzleHttp\Handler\MockHandler;
+
 $loaderPath = dirname(__DIR__) . '/vendor/autoload.php';
 $loader = require $loaderPath;
 
 define('MOCK', dirname(__DIR__) . '/tests/mock');
-
-use GuzzleHttp\Subscriber\Mock;
 
 use AssetZen\Client;
 
@@ -48,12 +48,16 @@ if (!isset($_SERVER['CONFIG'])) {
     }
 }
 
-function getTestClient()
+function getTestClient(array $responses = [])
 {
     // Instantiate the client
     $config = ( isset($_SERVER['CONFIG']) ? $_SERVER['CONFIG'] : 'test_config.dist.json');
-    $az = new \AssetZen\Client($config);
+    $az = new \AssetZen\Client($config, new MockHandler($responses));
     return $az;
+}
+
+function mock($uri) {
+  return file_get_contents(MOCK . $uri);
 }
 
 $loader->addPsr4('AssetZen\Tests\\', dirname(__DIR__) . '/tests/Trovebox');
