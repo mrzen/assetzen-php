@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, US.A
  */
 
-namepsace AssetZen\Tests;
+namespace AssetZen\Tests;
 
 $loaderPath = dirname(__DIR__) . '/vendor/autoload.php';
 $loader = require $loaderPath;
