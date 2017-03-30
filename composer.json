@@ -22,13 +22,13 @@
 
     "autoload" : {
       "psr-4": {
-        "AssetZen\\": "src/"
+        "MrZen\\AssetZen\\": "src/"
       }
     },
 
     "autoload-dev": {
       "psr-0": {
-        "AssetZen\\Tests": "tests/AssetZen"
+        "MrZen\\AssetZen\\Tests": "tests/AssetZen"
       }
     }
 }
