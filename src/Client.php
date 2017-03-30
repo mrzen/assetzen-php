@@ -20,16 +20,8 @@
 
 namespace AssetZen;
 
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware;
-use Sainsburys\Guzzle\Oauth2\Middleware\OAuthMiddleware;
-use Sainsburys\Guzzle\Oauth2\GrantType\AuthorizationCode;
-use Sainsburys\Guzzle\Oauth2\AccessToken;
-
-use AssetZen\Resources\Images;
-use AssetZen\Resources\Albums;
-use AssetZen\Models\Account;
-
+use League\OAuth2\Client\Grant\AuthorizationCode;
+use League\OAuth2\Client\Provider\GenericProvider;
 
 class Client extends \GuzzleHttp\Client {
 
@@ -60,34 +52,17 @@ class Client extends \GuzzleHttp\Client {
      */
     public function __construct($config = null, $stack = null)
     {
-      $this->_stack = HandlerStack::create();
-      if($stack) $this->_stack = HandlerStack::create($stack);
 
-      $this->_history = [];
-      $configuration = $this->getConfiguration($config);
+      $provider = new GenericProvider($config);
 
-      if (!array_key_exists('base_uri', $configuration)) {
-        $configuration['base_uri'] = 'https://assetzen.mrzen.com/';
-      }
+      $accessToken = $provider->getAccessToken('authorization_code', [
+      
+        'code' => $config['auth']['code']
+      
+      ]);
 
-      $token = false;
+      var_dump($accessToken);die;
 
-      if (array_key_exists('access_token', $configuration)) {
-        $token = new AccessToken($configuration['access_token']['token'], 'token', $configuration['access_token']['data']);
-      }
-
-      parent::__construct(['handler' => $this->_stack, 'auth' => 'oauth2', 'base_uri' => $configuration['base_uri']]);
-
-      $configuration['auth'][AuthorizationCode::CONFIG_TOKEN_URL] = '/oauth/token';
-      $grant = new AuthorizationCode($this, $configuration['auth']);
-      $oauth = new OAuthMiddleware($this, $grant);
-      $history = Middleware::history($this->_history);
-
-      if($token) $oauth->setAccessToken($token);
-
-      $this->_stack->push($oauth->onBefore());
-      $this->_stack->push($oauth->onFailure(5));
-      $this->_stack->push($history);
     }
 
     public function history(){
